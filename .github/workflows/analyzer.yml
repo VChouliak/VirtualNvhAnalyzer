@@ -28,7 +28,8 @@ jobs:
         run: dotnet restore
 
       - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build --no-restore --configuration Release --verbosity detailed
 
       - name: Run tests
-        run: dotnet test VirtualNvhAnalyzer.Infrastructure.Tests/VirtualNvhAnalyzer.Infrastructure.Tests.csproj --no-build --verbosity normal
+        run: dotnet test VirtualNvhAnalyzer.Infrastructure.Tests/VirtualNvhAnalyzer.Infrastructure.Tests.csproj --no-build --verbosity detailed
+
