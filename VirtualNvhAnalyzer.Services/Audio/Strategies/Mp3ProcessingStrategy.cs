@@ -3,7 +3,7 @@ using VirtualNvhAnalyzer.Core.Models;
 
 namespace VirtualNvhAnalyzer.Services.Audio.Strategies
 {
-    internal class Mp3ProcessingStrategy : IAudioProcessingStrategy
+    public class Mp3ProcessingStrategy : IAudioProcessingStrategy
     {
         public bool CanProcess(string filePath) => File.Exists(filePath) && filePath.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase);
 
