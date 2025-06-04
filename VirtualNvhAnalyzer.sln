@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualNvhAnalyzer.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualNvhAnalyzer.Infrastructure.Tests", "VirtualNvhAnalyzer.Infrastructure.Tests\VirtualNvhAnalyzer.Infrastructure.Tests.csproj", "{FEFD3F12-319C-47F3-8769-36A501E05447}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualNvhAnalyzer.Services.Tests", "VirtualNvhAnalyzer.Services.Tests\VirtualNvhAnalyzer.Services.Tests.csproj", "{FFC8C5E7-2EB7-4273-A220-07B57FE34344}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FEFD3F12-319C-47F3-8769-36A501E05447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEFD3F12-319C-47F3-8769-36A501E05447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEFD3F12-319C-47F3-8769-36A501E05447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFC8C5E7-2EB7-4273-A220-07B57FE34344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC8C5E7-2EB7-4273-A220-07B57FE34344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC8C5E7-2EB7-4273-A220-07B57FE34344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC8C5E7-2EB7-4273-A220-07B57FE34344}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
