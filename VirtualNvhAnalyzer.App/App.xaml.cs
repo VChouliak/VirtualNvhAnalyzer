@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VirtualNvhAnalyzer.App.ViewModels;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
 using VirtualNvhAnalyzer.Services.Audio.Processing;
 using VirtualNvhAnalyzer.Services.Audio.Strategies;
@@ -22,6 +23,11 @@ namespace VirtualNvhAnalyzer.App
                     services.AddSingleton<IAudioProcessingService, AudioProcessingService>();
                     services.AddSingleton<IAudioProcessingStrategy, WavProcessingStrategy>();
                     services.AddSingleton<IAudioProcessingStrategy, Mp3ProcessingStrategy>();
+
+                    services.AddSingleton<MainWindow>();
+                    services.AddSingleton<MainViewModel>();
+                    services.AddSingleton<AudioImportContainerViewModel>();
+                    services.AddSingleton<AudioImportViewModel>();                   
                 })
                 .Build();
         }
@@ -30,7 +36,7 @@ namespace VirtualNvhAnalyzer.App
         {
             await AppHost.StartAsync();
 
-            var mainWindow = new MainWindow();
+            var mainWindow = AppHost.Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }
 
