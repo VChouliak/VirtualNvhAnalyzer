@@ -1,4 +1,6 @@
-﻿namespace VirtualNvhAnalyzer.Infrastructure.Tests
+﻿using VirtualNvhAnalyzer.Infrastructure.Configuration.Loaders;
+
+namespace VirtualNvhAnalyzer.Infrastructure.Tests
 {
     public class ConfigurationLoaderTests
     {
@@ -6,10 +8,13 @@
         public void LoadAudioSettings_ShouldReturnValidAudioSettings()
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(),
-                "ConfigFiles",
+                "Configuration",
+                "Files",
                 "audioSettings.json");
-        
-            var settings = ConfigurationLoader.LoadAudioSettings(path);
+
+            var audioSettingsLoader = new AudioSettingsLoader();
+
+            var settings = audioSettingsLoader.Load(path);
 
             Assert.NotNull(settings);
             Assert.NotEmpty(settings.SupportedFormats);

@@ -1,0 +1,15 @@
+[
+    {
+        "Key": "AudioImportContainer",
+        "ViewModel": "AudioImportContainerViewModel",
+        "View": "AudioImportContainerView",
+        "Children": [ "AudioImport" ],
+        "Commands": []
+    },
+    {
+        "Key": "AudioImport",
+        "ViewModel": "AudioImportViewModel",
+        "View": "AudioImportView",
+        "Commands": [ "LoadAudio", "ClearAudio" ]
+    }
+]

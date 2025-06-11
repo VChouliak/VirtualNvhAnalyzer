@@ -1,6 +1,8 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Input;
 using VirtualNvhAnalyzer.App.Commands;
+using VirtualNvhAnalyzer.Core.Common.Commands;
+using VirtualNvhAnalyzer.Infrastructure.Configuration.ViewModels;
 
 namespace VirtualNvhAnalyzer.App.ViewModels
 {
@@ -8,9 +10,9 @@ namespace VirtualNvhAnalyzer.App.ViewModels
     {
         private string? _selectedFileName;
 
-        public AudioImportViewModel()
+        public AudioImportViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs) 
+            : base(viewModels, commands, configs)
         {
-            ImportAudioCommand = new RelayCommand(ImportAudio);
         }
 
         public string? SelectedFileName
@@ -26,7 +28,7 @@ namespace VirtualNvhAnalyzer.App.ViewModels
         public ICommand ImportAudioCommand { get; }
 
 
-        private void ImportAudio()
+        public void ImportAudio()
         {
             var openFileDialog = new OpenFileDialog
             {
