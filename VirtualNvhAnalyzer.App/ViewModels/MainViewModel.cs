@@ -9,7 +9,7 @@ namespace VirtualNvhAnalyzer.App.ViewModels
         public MainViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs) 
             : base(viewModels, commands, configs)
         {
-        }
+        }    
      
     }
 }

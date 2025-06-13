@@ -11,7 +11,7 @@
         <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Audio Import" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
             <Button Content="Import Audio File" Width="150"  Margin="0,0,0,10"
-                    Command="{Binding ImportAudioCommand}" />
+                    Command="{Binding Commands[ImportAudioCommand]}" />
             <TextBlock Text="{Binding SelectedFileName}" FontStyle="Italic" Foreground="Gray"/>
 
         </StackPanel>

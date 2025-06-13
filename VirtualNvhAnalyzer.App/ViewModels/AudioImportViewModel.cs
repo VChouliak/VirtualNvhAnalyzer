@@ -11,7 +11,8 @@ namespace VirtualNvhAnalyzer.App.ViewModels
 
         public AudioImportViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs) 
             : base(viewModels, commands, configs)
-        {
+        {                 
+     
         }
 
         public string? SelectedFileName
@@ -22,10 +23,7 @@ namespace VirtualNvhAnalyzer.App.ViewModels
                 _selectedFileName = value;
                 OnPropertyChanged();
             }
-        }
-
-        public ICommand ImportAudioCommand { get; }
-
+        }       
 
         public void ImportAudio()
         {

@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <views:AudioImportContainerView DataContext="{Binding AudioImportContainerViewModel}"/>
+        <views:AudioImportContainerView DataContext="{Binding ViewModels[AudioImportContainer]}"/>
     </Grid>
 </Window>

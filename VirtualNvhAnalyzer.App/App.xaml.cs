@@ -35,13 +35,7 @@ namespace VirtualNvhAnalyzer.App
                     {
                         var loader = provider.GetRequiredService<ISettingsLoader<List<ViewModelConfig>>>();
                         return loader.Load("Configuration/Files/viewmodels.json");
-                    });
-               
-                    services.AddSingleton(provider =>
-                    {
-                        var loader = provider.GetRequiredService<ISettingsLoader<List<ViewModelConfig>>>();
-                        return loader.Load("Configuration/Files/viewmodels.json");
-                    });
+                    });                             
                    
                     services.AddSingleton(provider =>
                     {
