@@ -10,6 +10,6 @@
         "Key": "AudioImport",
         "ViewModel": "AudioImportViewModel",
         "View": "AudioImportView",
-        "Commands": [ "LoadAudio", "ClearAudio" ]
+        "Commands": [ "ImportAudioCommand", "ClearAudio" ]
     }
 ]

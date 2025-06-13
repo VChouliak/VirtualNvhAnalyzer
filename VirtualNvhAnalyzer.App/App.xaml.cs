@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VirtualNvhAnalyzer.App.Commands;
-using VirtualNvhAnalyzer.App.ViewModels;
-using VirtualNvhAnalyzer.Core.Common.Commands;
+using VirtualNvhAnalyzer.App.Utilities;
+using VirtualNvhAnalyzer.App.Utilities.Extensions;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
+using VirtualNvhAnalyzer.Infrastructure.Configuration;
+using VirtualNvhAnalyzer.Infrastructure.Configuration.Loaders;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.ViewModels;
 using VirtualNvhAnalyzer.Services.Audio.Processing;
 using VirtualNvhAnalyzer.Services.Audio.Strategies;
@@ -26,38 +27,35 @@ namespace VirtualNvhAnalyzer.App
                     services.AddSingleton<IAudioProcessingService, AudioProcessingService>();
                     services.AddSingleton<IAudioProcessingStrategy, WavProcessingStrategy>();
                     services.AddSingleton<IAudioProcessingStrategy, Mp3ProcessingStrategy>();
+                   
+                    services.AddSingleton<ISettingsLoader<AudioSettings>, AudioSettingsLoader>();
+                    services.AddSingleton<ISettingsLoader<List<ViewModelConfig>>, ViewModelSettingsLoader>();                    
 
-                    services.AddSingleton<MainWindow>();
-                    services.AddSingleton<MainViewModel>(provider =>
+                    services.AddSingleton(provider =>
                     {
-                        //TODO: Autoloading o der of ViewModels and Commands
-                        var viewModels = new Dictionary<string, Func<BaseViewModel>>();
-                        var commands = new Dictionary<string, Func<INamedCommand>>();
-
-                        var configs = new List<ViewModelConfig>();
-
-                        return new MainViewModel(viewModels, commands, configs);
-                    }); 
-                    services.AddSingleton<AudioImportContainerViewModel>(provider =>
-                    {
-                        //TODO: Autoloading o der of ViewModels and Commands
-                        var viewModels = new Dictionary<string, Func<BaseViewModel>>();                        
-                        var commands = new Dictionary<string, Func<INamedCommand>>();
-
-                        var configs = new List<ViewModelConfig>();
-                        
-                        return new AudioImportContainerViewModel(viewModels, commands, configs);
+                        var loader = provider.GetRequiredService<ISettingsLoader<List<ViewModelConfig>>>();
+                        return loader.Load("Configuration/Files/viewmodels.json");
                     });
-                    services.AddSingleton<AudioImportViewModel>(provider =>
+               
+                    services.AddSingleton(provider =>
                     {
-                        //TODO: Autoloading o der of ViewModels and Commands
-                        var viewModels = new Dictionary<string, Func<BaseViewModel>>();
-                        var commands = new Dictionary<string, Func<INamedCommand>>();
+                        var loader = provider.GetRequiredService<ISettingsLoader<List<ViewModelConfig>>>();
+                        return loader.Load("Configuration/Files/viewmodels.json");
+                    });
+                   
+                    services.AddSingleton(provider =>
+                    {
+                        var layoutConfigs = provider.GetRequiredService<List<ViewModelConfig>>();
+                        return ViewModelAndCommandFactoryBuilder.BuildViewModelsAndCommands(provider, layoutConfigs).Item1; // ViewModels
+                    });
 
-                        var configs = new List<ViewModelConfig>();
-
-                        return new AudioImportViewModel(viewModels, commands, configs);
-                    });                    
+                    services.AddSingleton(provider =>
+                    {
+                        var layoutConfigs = provider.GetRequiredService<List<ViewModelConfig>>();
+                        return ViewModelAndCommandFactoryBuilder.BuildViewModelsAndCommands(provider, layoutConfigs).Item2; // Commands
+                    });
+                    services.AddSingleton<MainWindow>();
+                    services.RegisterViewModelsAndCommands();
                 })
                 .Build();
         }

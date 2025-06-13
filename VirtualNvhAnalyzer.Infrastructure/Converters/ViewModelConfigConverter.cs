@@ -9,7 +9,7 @@ namespace VirtualNvhAnalyzer.Infrastructure.Converters
     {
         private static Dictionary<string, Type>? _viewModelConfigTypeMap;
 
-        private static Dictionary<string, Type> GetLayoutTypeMap()
+        private static Dictionary<string, Type> GetVieModelSettingsTypeMap()
         {
             if (_viewModelConfigTypeMap != null)
                 return _viewModelConfigTypeMap;
@@ -19,7 +19,7 @@ namespace VirtualNvhAnalyzer.Infrastructure.Converters
                 .SelectMany(x => x.GetTypes())
                 .Where(t => typeof(ViewModelConfig).IsAssignableFrom(t) && !t.IsAbstract)               
                 .ToDictionary(
-                    t => t.Name.Replace("ViewModel",""),
+                    t => t.Name,
                     t => t
                 );
 
@@ -35,7 +35,7 @@ namespace VirtualNvhAnalyzer.Infrastructure.Converters
             using var doc = JsonDocument.ParseValue(ref reader);
             var vieModel = doc.RootElement.GetProperty("ViewModel").GetString();
 
-            var typeMap = GetLayoutTypeMap();
+            var typeMap = GetVieModelSettingsTypeMap();
             var safeOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true                
