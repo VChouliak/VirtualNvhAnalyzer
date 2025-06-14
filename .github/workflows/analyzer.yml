@@ -5,7 +5,7 @@ on:
     branches:
       - master
       - dev
-      - feature/audio-handler
+      - feature/analyzer-structure
   pull_request:
     branches:
       - master
