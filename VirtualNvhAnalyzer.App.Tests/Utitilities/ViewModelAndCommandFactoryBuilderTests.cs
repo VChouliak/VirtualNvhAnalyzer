@@ -42,11 +42,11 @@ namespace VirtualNvhAnalyzer.App.Tests.Utitilities
 
             // Assert
             Assert.True(viewModels.ContainsKey("AudioImport"));
-            Assert.True(commands.ContainsKey(nameof(ImportAudioCommand)));
+            Assert.True(commands.ContainsKey(nameof(ImportAudioAsyncCommand)));
             
 
             var vmInstance = viewModels["AudioImport"]();
-            var importAudioCmdInstance = commands[nameof(ImportAudioCommand)]();
+            var importAudioCmdInstance = commands[nameof(ImportAudioAsyncCommand)]();
             
 
             Assert.NotNull(vmInstance);
@@ -54,7 +54,7 @@ namespace VirtualNvhAnalyzer.App.Tests.Utitilities
                
 
             Assert.IsType<AudioImportViewModel>(vmInstance);
-            Assert.IsType<ImportAudioCommand>(importAudioCmdInstance);
+            Assert.IsType<ImportAudioAsyncCommand>(importAudioCmdInstance);
             
         }
        

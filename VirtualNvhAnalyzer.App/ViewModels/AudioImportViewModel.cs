@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Input;
+using VirtualNvhAnalyzer.App.Services.Mediator;
 using VirtualNvhAnalyzer.Core.Common.Commands;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.ViewModels;
 
@@ -8,11 +9,12 @@ namespace VirtualNvhAnalyzer.App.ViewModels
     public class AudioImportViewModel : BaseViewModel
     {
         private string? _selectedFileName;
+        private IMediator _mediator;
 
-        public AudioImportViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs) 
+        public AudioImportViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs, IMediator mediator)
             : base(viewModels, commands, configs)
-        {                 
-     
+        {
+            _mediator = mediator;
         }
 
         public string? SelectedFileName
@@ -25,7 +27,7 @@ namespace VirtualNvhAnalyzer.App.ViewModels
             }
         }       
 
-        public void ImportAudio()
+        public Task ImportAudioAsync()
         {
             var openFileDialog = new OpenFileDialog
             {
@@ -35,8 +37,10 @@ namespace VirtualNvhAnalyzer.App.ViewModels
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                SelectedFileName = openFileDialog.FileName;
+               SelectedFileName = openFileDialog.FileName;
+                _mediator.Publish(SelectedFileName);
             }
+            return Task.CompletedTask;
         }
 
     }

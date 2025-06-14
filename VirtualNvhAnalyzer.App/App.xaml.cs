@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VirtualNvhAnalyzer.App.Services.Mediator;
 using VirtualNvhAnalyzer.App.Utilities;
 using VirtualNvhAnalyzer.App.Utilities.Extensions;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
@@ -29,7 +30,9 @@ namespace VirtualNvhAnalyzer.App
                     services.AddSingleton<IAudioProcessingStrategy, Mp3ProcessingStrategy>();
                    
                     services.AddSingleton<ISettingsLoader<AudioSettings>, AudioSettingsLoader>();
-                    services.AddSingleton<ISettingsLoader<List<ViewModelConfig>>, ViewModelSettingsLoader>();                    
+                    services.AddSingleton<ISettingsLoader<List<ViewModelConfig>>, ViewModelSettingsLoader>();
+
+                    services.AddSingleton<IMediator, Mediator>();
 
                     services.AddSingleton(provider =>
                     {

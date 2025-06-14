@@ -1,6 +1,6 @@
 ﻿namespace VirtualNvhAnalyzer.App.Services.Mediator
 {
-    public class Mediator
+    public class Mediator : IMediator
     {
         private readonly Dictionary<Type, List<Delegate>> _subscribers = new();
 

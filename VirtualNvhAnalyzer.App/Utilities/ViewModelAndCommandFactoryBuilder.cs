@@ -26,12 +26,14 @@ namespace VirtualNvhAnalyzer.App.Utilities
                     viewModelDict[key] = () => (BaseViewModel)provider.GetRequiredService(viewModel);
                 }
 
-                foreach (var commandName in config.Commands)
+                foreach (var command in config.Commands)
                 {
+                    var commandName = command;
+                    var commandTypeName = $"{commandName}Command"; //Done to use in xaml only for example: "ImportAudio" instead of "ImportAudioCommand" -> ....{Binding Commands[ImportAudio]}
                     var commandType = AppDomain.CurrentDomain
                         .GetAssemblies()
                         .SelectMany(a => a.GetTypes())
-                        .FirstOrDefault(t => t.Name == commandName && typeof(INamedCommand).IsAssignableFrom(t));
+                        .FirstOrDefault(t => typeof(INamedCommand).IsAssignableFrom(t) && t.Name == commandTypeName);
                     if (commandType != null)
                     {
                         commandDict[commandName] = () => (INamedCommand)provider.GetRequiredService(commandType);
