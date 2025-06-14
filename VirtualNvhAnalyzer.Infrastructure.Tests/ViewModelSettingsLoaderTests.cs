@@ -24,7 +24,7 @@ namespace VirtualNvhAnalyzer.Infrastructure.Tests
             var audioImport = configs.FirstOrDefault(c => c.Key == "AudioImport");
             Assert.NotNull(audioImport);
             Assert.Equal("AudioImportViewModel", audioImport.ViewModel);
-            Assert.Contains("ImportAudioCommand", audioImport.Commands);
+            Assert.Contains("ImportAudioAsync", audioImport.Commands);
         }
     }
 }

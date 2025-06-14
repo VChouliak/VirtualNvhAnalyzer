@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using VirtualNvhAnalyzer.App.Services.Mediator;
 using VirtualNvhAnalyzer.App.Utilities;
 using VirtualNvhAnalyzer.App.Utilities.Extensions;
 using VirtualNvhAnalyzer.App.ViewModels;
@@ -19,9 +20,10 @@ namespace VirtualNvhAnalyzer.App.Tests.Utitilities
 
             services.AddSingleton(new Dictionary<string, Func<BaseViewModel>>());
             services.AddSingleton(new Dictionary<string, Func<INamedCommand>>());
-            services.AddSingleton(new List<ViewModelConfig>());                      
-         
-         
+            services.AddSingleton(new List<ViewModelConfig>());  
+            services.AddSingleton<IMediator, Mediator>();
+
+
             services.AddSingleton<ISettingsLoader<List<ViewModelConfig>>, ViewModelSettingsLoader>();          
 
             services.AddSingleton(provider =>
@@ -42,11 +44,11 @@ namespace VirtualNvhAnalyzer.App.Tests.Utitilities
 
             // Assert
             Assert.True(viewModels.ContainsKey("AudioImport"));
-            Assert.True(commands.ContainsKey(nameof(ImportAudioAsyncCommand)));
+            Assert.True(commands.ContainsKey(nameof(ImportAudioAsyncCommand).Replace("Command","")));
             
 
             var vmInstance = viewModels["AudioImport"]();
-            var importAudioCmdInstance = commands[nameof(ImportAudioAsyncCommand)]();
+            var importAudioCmdInstance = commands[nameof(ImportAudioAsyncCommand).Replace("Command", "")]();
             
 
             Assert.NotNull(vmInstance);
