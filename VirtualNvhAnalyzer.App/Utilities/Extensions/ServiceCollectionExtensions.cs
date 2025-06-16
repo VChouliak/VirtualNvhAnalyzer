@@ -13,14 +13,14 @@ namespace VirtualNvhAnalyzer.App.Utilities.Extensions
             foreach (var vmType in assemblies.SelectMany(a => a.GetTypes())
                 .Where(t => typeof(BaseViewModel).IsAssignableFrom(t) && !t.IsAbstract && !t.IsGenericType))
             {
-                services.AddTransient(vmType);
+                services.AddSingleton(vmType);
             }
 
             foreach (var cmdType in assemblies.SelectMany(a => a.GetTypes())
                 .Where(t => typeof(INamedCommand).IsAssignableFrom(t) && !t.IsAbstract && !t.IsGenericType))
             {
                 services.AddSingleton(typeof(INamedCommand), cmdType);
-                services.AddSingleton(cmdType); // damit direkte Resolve per Typname funktioniert
+                services.AddSingleton(cmdType);
             }
         }
     }

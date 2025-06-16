@@ -18,17 +18,47 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Filename:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" />
+            <TextBlock Grid.Row="0" Grid.Column="1"
+                       Text="{Binding FileDisplayName}" 
+                       FontSize="16" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Channels:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" />
+            <TextBlock Grid.Row="1" Grid.Column="1"
+                       Text="{Binding AudioFileInfo.Channels}" 
+                       FontSize="16" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Sample Rate:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" />
+            <TextBlock Grid.Row="2" Grid.Column="1"
+                       Text="{Binding AudioFileInfo.SampleRate}" 
+                       FontSize="16" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Sample Rate:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" />
+            <TextBlock Grid.Row="3" Grid.Column="1"
+                       Text="{Binding AudioFileInfo.Duration}" 
+                       FontSize="16" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+        </Grid>
 
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="3"
-                   Text="Audio File Processing View" 
-                   FontSize="24" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="3"
-                   Text="{Binding Path}" 
-                   FontSize="16" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"/>
         <Button Grid.Row="3" Grid.Column="0" Content="Play" Command="{Binding Commands[AudioFilePlay]}"/>
         <Button Grid.Row="3" Content="Stop" Grid.Column="1" Command="{Binding Commands[AudioFileStop]}"/>
         <Button Grid.Row="3" Content="Pause" Grid.Column="2" Command="{Binding Commands[AudioFilePause]}"/>

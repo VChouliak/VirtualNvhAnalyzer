@@ -1,68 +1,67 @@
-﻿using VirtualNvhAnalyzer.App.Services.Mediator;
+﻿using System.IO;
+using VirtualNvhAnalyzer.App.Services.Mediator;
 using VirtualNvhAnalyzer.App.Services.Mediator.Messages;
 using VirtualNvhAnalyzer.Core.Common.Commands;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Strategies;
+using VirtualNvhAnalyzer.Core.Models;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.ViewModels;
+using VirtualNvhAnalyzer.Services.Audio.Strategies;
 
 namespace VirtualNvhAnalyzer.App.ViewModels
 {
     public class AudioFileProcessingViewModel : BaseViewModel
     {
-        private IMediator _mediator;
-        private readonly IAudioProcessingService _audioProcessingService;
-        private IAudioProcessingStrategy _selectedStrategy;
+        private IMediator _mediator;       
+        private IAudioProcessingStrategy? _selectedStrategy;
 
-        public AudioFileProcessingViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs, IMediator mediator, IAudioProcessingService audioProcessingService) : base(viewModels, commands, configs)
+        public AudioFileProcessingViewModel(Dictionary<string, Func<BaseViewModel>> viewModels, Dictionary<string, Func<INamedCommand>> commands, List<ViewModelConfig> configs, IMediator mediator) : base(viewModels, commands, configs)
         {
             _mediator = mediator;
-            _mediator.Subscribe<AudioImportedMessage>((Message) => Path = Message.FileName);
-            _audioProcessingService = audioProcessingService;
+            _mediator.Subscribe<AudioProcessingStrategySelectedMessage>((Message) => { _selectedStrategy = Message.SelectedStrategy; AudioFileInfo = ((BaseAudioProcessingStrategyAsync)_selectedStrategy).AudioFileInfo; FileDisplayName = Path.GetFileName(((BaseAudioProcessingStrategyAsync)_selectedStrategy).AudioFileInfo.FileName);});           
 
         }
-      
-        private string _path;
 
-        public string Path
+        private AudioFileInfo? _audioFileInfo;
+
+        public AudioFileInfo? AudioFileInfo
         {
-            get => _path;
+            get { return _audioFileInfo; }
             set
             {
-                if (_path != value)
-                {
-                    _path = value;
-                    OnPropertyChanged();
-                    _selectedStrategy = null; // Reset, wenn neue Datei gewählt wird
-                }
+                _audioFileInfo = value;
+                OnPropertyChanged();
             }
         }
 
-        public async Task EnsureStrategyInitializedAsync()
+        private string? _fileDisplayName;
+
+        public string? FileDisplayName
         {
-            if (_selectedStrategy == null && !string.IsNullOrEmpty(Path))
+            get { return _fileDisplayName; }
+            set
             {
-                _selectedStrategy = await _audioProcessingService.ProcessAsync(Path);
+                _fileDisplayName = value;
+                OnPropertyChanged();
             }
         }
+
 
 
         public async Task PlayAudioAsync()
-        {
-            await EnsureStrategyInitializedAsync();
+        {            
             if (_selectedStrategy != null)
                 await _selectedStrategy.PlayAsync();
         }
 
         public async Task PauseAudioAsync()
-        {
-            await EnsureStrategyInitializedAsync();
+        {            
             if (_selectedStrategy != null)
                 await _selectedStrategy.PauseAsync();
         }
 
         public async Task StopAudioAsync()
-        {
-            await EnsureStrategyInitializedAsync();
+        {           
             if (_selectedStrategy != null)
                 await _selectedStrategy.StopAsync();
         }
