@@ -1,9 +1,8 @@
-﻿using VirtualNvhAnalyzer.Core.Common.Interfaces;
-using VirtualNvhAnalyzer.Core.Models;
+﻿using VirtualNvhAnalyzer.Core.Interfaces.Audio.Strategies;
 
 namespace VirtualNvhAnalyzer.Core.Interfaces.Audio.Services
 {
-    public interface IAudioProcessingService : IProcessingService<string, AudioFileInfo>
+    public interface IAudioProcessingService : IProcessingServiceAsync<string, IAudioProcessingStrategy>
     {
     }
 }

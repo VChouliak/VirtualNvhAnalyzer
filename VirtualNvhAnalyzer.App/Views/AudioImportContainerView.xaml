@@ -7,6 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <local:AudioImportView DataContext="{Binding ViewModels[AudioImport]}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <local:AudioImportView DataContext="{Binding ViewModels[AudioImport]}" Grid.Column="0" />
+        <local:AudioFileProcessingView DataContext="{Binding ViewModels[AudioFileProcessing]}" Grid.Column="1" />
     </Grid>
 </UserControl>
