@@ -43,14 +43,14 @@
                        FontSize="16" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Sample Rate:" 
+            <Label Grid.Row="2" Grid.Column="0" Content="Sample:" 
                    HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" />
             <TextBlock Grid.Row="2" Grid.Column="1"
                        Text="{Binding AudioFileInfo.SampleRate}" 
                        FontSize="16" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Center"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Sample Rate:" 
+            <Label Grid.Row="3" Grid.Column="0" Content="Duration:" 
                    HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" />
             <TextBlock Grid.Row="3" Grid.Column="1"
                        Text="{Binding AudioFileInfo.Duration}" 
