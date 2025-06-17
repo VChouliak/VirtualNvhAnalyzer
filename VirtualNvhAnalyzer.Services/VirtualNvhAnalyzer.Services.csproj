@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VirtualNvhAnalyzer.core\VirtualNvhAnalyzer.Core.csproj" />
+    <ProjectReference Include="..\VirtualNvhAnalyzer.Infrastructure\VirtualNvhAnalyzer.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

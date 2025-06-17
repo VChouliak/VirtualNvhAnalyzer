@@ -6,6 +6,7 @@ on:
       - master
       - dev
       - feature/analyzer-structure
+      - feature/analyzer-mediaplayer
   pull_request:
     branches:
       - master

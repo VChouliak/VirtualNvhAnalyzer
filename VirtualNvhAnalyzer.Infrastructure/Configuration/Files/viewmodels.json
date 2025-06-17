@@ -3,7 +3,7 @@
         "Key": "AudioImportContainer",
         "ViewModel": "AudioImportContainerViewModel",
         "View": "AudioImportContainerView",
-        "Children": [ "AudioImport" ],
+        "Children": [ "AudioImport"],
         "Commands": []
     },
     {
@@ -11,5 +11,11 @@
         "ViewModel": "AudioImportViewModel",
         "View": "AudioImportView",
         "Commands": [ "ImportAudioAsync", "ClearAudio" ]
+    },
+    {
+        "Key": "AudioFileProcessing",
+        "ViewModel": "AudioFileProcessingViewModel",
+        "View": "AudioFileProcessingView",
+        "Commands": [ "AudioFilePause", "AudioFileStop", "AudioFilePlay" ]
     }
 ]

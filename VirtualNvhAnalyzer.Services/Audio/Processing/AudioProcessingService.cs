@@ -1,28 +1,30 @@
 ﻿using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
-using VirtualNvhAnalyzer.Core.Models;
-using VirtualNvhAnalyzer.Services.Audio.Strategies;
+using VirtualNvhAnalyzer.Core.Interfaces.Audio.Strategies;
 
 namespace VirtualNvhAnalyzer.Services.Audio.Processing
 {
     public class AudioProcessingService : IAudioProcessingService
     {
         private readonly IEnumerable<IAudioProcessingStrategy> _strategies;
+        private IAudioProcessingStrategy? _selectedStrategy;
 
         public AudioProcessingService(IEnumerable<IAudioProcessingStrategy> strategies)
         {
             _strategies = strategies;
         }
 
-        public async Task<AudioFileInfo> ProcessAsync(string input)
+        public async Task<IAudioProcessingStrategy> ProcessAsync(string input)
         {
-            var strategy = _strategies.FirstOrDefault(s => s.CanProcess(input));
+            _selectedStrategy = _strategies.FirstOrDefault(s => s.CanProcess(input));
 
-            if (strategy == null)
+            if (_selectedStrategy == null)
             {
                 throw new NotSupportedException($"No processing strategy found for file: {input}");
             }
 
-            return await strategy.ProcessAsync(input);
-        }
+            await _selectedStrategy.ProcessAsync(input);
+
+            return _selectedStrategy;
+        }               
     }
 }

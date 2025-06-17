@@ -4,8 +4,10 @@ using VirtualNvhAnalyzer.App.Utilities;
 using VirtualNvhAnalyzer.App.Utilities.Extensions;
 using VirtualNvhAnalyzer.App.ViewModels;
 using VirtualNvhAnalyzer.Core.Common.Commands;
+using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.Loaders;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.ViewModels;
+using VirtualNvhAnalyzer.Services.Audio.Processing;
 
 namespace VirtualNvhAnalyzer.App.Tests.Utitilities
 {
@@ -22,6 +24,8 @@ namespace VirtualNvhAnalyzer.App.Tests.Utitilities
             services.AddSingleton(new Dictionary<string, Func<INamedCommand>>());
             services.AddSingleton(new List<ViewModelConfig>());  
             services.AddSingleton<IMediator, Mediator>();
+            services.AddSingleton<IAudioProcessingService, AudioProcessingService>();   
+
 
 
             services.AddSingleton<ISettingsLoader<List<ViewModelConfig>>, ViewModelSettingsLoader>();          

@@ -5,6 +5,7 @@ using VirtualNvhAnalyzer.App.Services.Mediator;
 using VirtualNvhAnalyzer.App.Utilities;
 using VirtualNvhAnalyzer.App.Utilities.Extensions;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Services;
+using VirtualNvhAnalyzer.Core.Interfaces.Audio.Strategies;
 using VirtualNvhAnalyzer.Infrastructure.Configuration;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.Loaders;
 using VirtualNvhAnalyzer.Infrastructure.Configuration.ViewModels;
@@ -25,12 +26,23 @@ namespace VirtualNvhAnalyzer.App
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddSingleton<IAudioProcessingService, AudioProcessingService>();
-                    services.AddSingleton<IAudioProcessingStrategy, WavProcessingStrategy>();
-                    services.AddSingleton<IAudioProcessingStrategy, Mp3ProcessingStrategy>();
+                  
                    
                     services.AddSingleton<ISettingsLoader<AudioSettings>, AudioSettingsLoader>();
                     services.AddSingleton<ISettingsLoader<List<ViewModelConfig>>, ViewModelSettingsLoader>();
+
+                    services.AddSingleton<IAudioProcessingService, AudioProcessingService>();
+                    services.AddSingleton<AudioSettings>(provider =>
+                    {
+                        var loader = provider.GetRequiredService<ISettingsLoader<AudioSettings>>();
+                        return loader.Load("Configuration/Files/audioSettings.json");
+                    });
+                  
+                    services.AddSingleton<IAudioProcessingStrategy, WavProcessingStrategy>();
+                    services.AddSingleton<IAudioProcessingStrategy, Mp3ProcessingStrategy>();
+                   
+
+                   
 
                     services.AddSingleton<IMediator, Mediator>();
 
