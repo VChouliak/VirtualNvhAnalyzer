@@ -64,12 +64,12 @@ namespace VirtualNvhAnalyzer.Infrastructure.Tests
             };
 
             // Buffer
-            var pcmBuffer = AudioProcessingOptionsFactory.CreatePulseCodeModulationBuffer(fileInfo, options);
+            var pcmBuffer = AudioProcessingCalculations.CreatePulseCodeModulationBuffer(fileInfo, options);
             Assert.NotNull(pcmBuffer);
             Assert.True(pcmBuffer.Length > 0);
 
             // FFT Size
-            int fftSize = AudioProcessingOptionsFactory.CalculateFftSize(fileInfo.SampleRate, options.FftSizeFractionOfSampleRate);
+            int fftSize = AudioProcessingCalculations.CalculateFftSize(fileInfo.SampleRate, options.FftSizeFractionOfSampleRate);
             Assert.True(fftSize > 0);
             // Muss Potenz von 2 sein
             Assert.True((fftSize & (fftSize - 1)) == 0);

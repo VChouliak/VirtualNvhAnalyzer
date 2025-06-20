@@ -1,4 +1,7 @@
-﻿using NAudio.Wave;
+﻿using System.Numerics;
+using MathNet.Numerics.IntegralTransforms;
+using NAudio.Wave;
+using VirtualNvhAnalyzer.Core.Common.Options;
 using VirtualNvhAnalyzer.Core.Interfaces.Audio.Strategies;
 using VirtualNvhAnalyzer.Core.Models;
 using VirtualNvhAnalyzer.Infrastructure.Configuration;
@@ -75,6 +78,65 @@ namespace VirtualNvhAnalyzer.Services.Audio.Strategies
             }
 
             return Task.CompletedTask;
+        }
+
+        public async Task<IEnumerable<float>> ToPulseCodeModulationAsync()
+        {
+            if (_audioFileReader == null)
+                throw new InvalidOperationException("Audio file not loaded.");
+
+            var options = _audioSettings.ProcessingOptions;
+
+
+            return await Task.Run(() =>
+            {
+                var sampleProvider = _audioFileReader.ToSampleProvider();
+
+                List<float> samples = new List<float>();
+
+                float[] buffer = AudioProcessingCalculations.CreatePulseCodeModulationBuffer(AudioFileInfo, options);
+                int read;
+
+                do
+                {
+                    read = sampleProvider.Read(buffer, 0, buffer.Length);
+                    for (int i = 0; i < read; i++)
+                    {
+                        samples.Add(buffer[i]);
+                    }
+                } while (read > 0);
+
+                return (IEnumerable<float>)samples;
+            });
+        }
+
+        public async Task<IEnumerable<Complex>> ToFastFourierTransformationAsync()
+        {
+            if (_audioFileReader == null)
+                throw new InvalidOperationException("Audio file not loaded.");
+
+            var pcmSamples = await ToPulseCodeModulationAsync();
+
+            var options = _audioSettings.ProcessingOptions;
+            int fftSize = options.FftSize > 0 
+                ? options.FftSize :
+                AudioProcessingCalculations.CalculateFftSize(
+                    AudioFileInfo.SampleRate, 
+                    options.FftSizeFractionOfSampleRate);
+
+            float[] samplesForFft = new float[fftSize];
+            var pcmArray = pcmSamples as float[] ?? pcmSamples.ToArray();
+            Array.Copy(pcmArray, samplesForFft, Math.Min(pcmArray.Length, fftSize));
+
+            samplesForFft = AudioProcessingCalculations.ApplyHanningWindow(samplesForFft);
+
+            Complex[] fftBuffer = samplesForFft.Select(sample => new Complex(sample, 0)).ToArray();
+
+            return await Task.Run(() =>
+            {
+                Fourier.Forward(fftBuffer, FourierOptions.Matlab);
+                return (IEnumerable<Complex>)fftBuffer;
+            });
         }
     }
 }

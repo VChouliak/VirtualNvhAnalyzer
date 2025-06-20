@@ -2,7 +2,7 @@
 
 namespace VirtualNvhAnalyzer.Core.Common.Options
 {
-    public class AudioProcessingOptionsFactory
+    public class AudioProcessingCalculations
     {
         private const double DEFAULT_SAMPLE_RATE_FRACTION = 0.1;
         private const int SMALLEST_POWER_OF_TWO = 1;
@@ -33,6 +33,20 @@ namespace VirtualNvhAnalyzer.Core.Common.Options
             }
 
             return fftSize;
+        }
+
+        public static float[] ApplyHanningWindow(float[] samples)
+        {
+            int n = samples.Length;
+            float[] windowedSamples = new float[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                float window = 0.5f * (1 - (float)Math.Cos(2 * Math.PI * i / (n - 1)));
+                windowedSamples[i] = samples[i] * window;
+            }
+
+            return windowedSamples;
         }
     }
 }
